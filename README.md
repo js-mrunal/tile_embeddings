@@ -1,2 +1,1 @@
-Starting a repository for sharing the tile embeddings file
-
+Repository for the tile embeddings project.
