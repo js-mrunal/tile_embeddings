@@ -1,0 +1,17 @@
+{
+    "tiles" : {
+        "X" : ["solid"],
+        "S" : ["solid","breakable"],
+        "-" : ["passable","empty"],
+        "?" : ["solid","collectable"],
+        "Q" : ["solid"],
+        "E" : ["hazard","moving"],
+        "<" : ["solid","pipe"],
+        ">" : ["solid","pipe"],
+        "[" : ["solid","pipe"],
+        "]" : ["solid","pipe"],
+        "o" : ["passable","collectable"],
+        "B" : ["solid","hazard"],
+        "b" : ["solid","hazard"]
+    }
+}

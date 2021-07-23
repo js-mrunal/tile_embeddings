@@ -1,0 +1,17 @@
+{
+	"solid": [
+        "#",
+        "D",
+        "T",
+        "M",
+        "H"
+    ],
+    "passable": [
+        "M",
+        "T"
+    ],
+    "hazard": [
+    ],
+    "climbable": [
+    ]
+}
