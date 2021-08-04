@@ -54,4 +54,5 @@ python autoencoder_training.py
 
 3. Load the directly provided architecture and weights. Sample Notebook: 
 
-## Generating Level Representation using trained autoencoder
+## Generating Level Representation using trained autoencoder-Bubble Bobble
+The notebook *bubble_bobble_generation.ipynb* demonstrates step by step level generation using tile embedding.
