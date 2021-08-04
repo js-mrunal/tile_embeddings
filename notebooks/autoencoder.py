@@ -31,14 +31,14 @@ from keras import backend as K
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from collections import Counter
 from keras import metrics
-from evaluation_metrics.multilabel.example_based import (
+from utils.evaluation_metrics.multilabel.example_based import (
     hamming_loss,
     example_based_accuracy,
     example_based_precision,
     example_based_recall,
 )
 
-from evaluation_metrics.multilabel.label_based import (
+from utils.evaluation_metrics.multilabel.label_based import (
     accuracy_macro,
     precision_macro,
     recall_macro,
@@ -47,8 +47,8 @@ from evaluation_metrics.multilabel.label_based import (
     recall_micro,
 )
 
-from evaluation_metrics.multilabel.alpha_score import alpha_score
-from data_loading.load_data import get_tile_data
+from utils.evaluation_metrics.multilabel.alpha_score import alpha_score
+from utils.data_loading.load_data import get_tile_data
 
 ##loading train and testing data
 
@@ -57,15 +57,11 @@ json_directory = "../data/json_files_trimmed_features/"
 data = get_tile_data(data_directory, json_directory)
 print("\nThe size of total data is", data.shape)
 data = shuffle(data)
-
 # split into train-test
 from sklearn.model_selection import train_test_split
-
 train_data, test_data = train_test_split(data, test_size=0.10, random_state=42)
-
 print("\nThe size of the train data is ", train_data.shape)
 print("The size of the test data is ", test_data.shape)
-
 # Feature Dictionary
 print("Building feature Dictionary..")
 mlb = MultiLabelBinarizer()
@@ -76,13 +72,10 @@ mlb_model = mlb.fit(combined_features)
 total_features = len(mlb_model.classes_)
 print("The feature dictionary has size", total_features)
 print("Printing Feature classes")
-display(mlb_model.classes_)
-
+print(mlb_model.classes_)
 
 # Build Input Output Training Batches
 print("Building Training Batches")
-
-"""Note : Add Generators"""
 train_image_batch = []
 for train_path in train_data["image_path"]:
     tile = image.load_img(train_path, target_size=(48, 48))
@@ -114,7 +107,6 @@ print("Train Text batch shape", train_text_batch.shape)
 print("Output Image batch shape", output_image_batch.shape)
 print("Output Text batch shape", output_text_batch.shape)
 
-
 # Build Input Output Test Batches
 print("Building Testing Batches")
 """Note : Add Generators"""
@@ -134,38 +126,30 @@ print("Train Image batch shape", test_image_batch.shape)
 print("Train Text batch shape", test_text_batch.shape)
 
 # model definition
-
 latent_dim = 128
 batch_size = 1
-
 # image encoder
 image_encoder_input = Input(shape=(48, 48, 3), name="image_input")
-
 image_encoder_conv_layer1 = Conv2D(
     32, strides=3, kernel_size=(3, 3), name="iencode_conv1"
 )(image_encoder_input)
 image_encoder_norm_layer1 = BatchNormalization()(image_encoder_conv_layer1)
 image_encoder_actv_layer1 = ReLU()(image_encoder_norm_layer1)
-
 image_encoder_conv_layer2 = Conv2D(32, (3, 3), padding="same", name="iencode_conv2")(
     image_encoder_actv_layer1
 )
 image_encoder_norm_layer2 = BatchNormalization()(image_encoder_conv_layer2)
 image_encoder_actv_layer2 = ReLU()(image_encoder_norm_layer2)
-
 image_encoder_conv_layer3 = Conv2D(16, (3, 3), padding="same", name="iencode_conv3")(
     image_encoder_actv_layer2
 )
 image_encoder_norm_layer3 = BatchNormalization()(image_encoder_conv_layer3)
 image_encoder_actv_layer3 = ReLU()(image_encoder_norm_layer3)
-
 image_shape_before_flatten = K.int_shape(image_encoder_actv_layer3)[1:]
 image_flatten = Flatten(name="image_flatten_layer")(image_encoder_actv_layer3)
 
-
 # text encoder
 text_encoder_input = Input(shape=(13,))
-
 text_encoder_dense_layer1 = Dense(32, activation="tanh", name="tencode_dense1")(
     text_encoder_input
 )
@@ -178,28 +162,24 @@ text_shape_before_concat = K.int_shape(text_encoder_dense_layer2)[1:]
 image_text_concat = Concatenate(name="image_text_concatenation")(
     [image_flatten, text_encoder_dense_layer2]
 )
-
 image_text_concat = Dense(256, activation="tanh", name="embedding_dense_1")(
     image_text_concat
 )
 
 
-##
+# define encoder model
 encoding_model = Model(
     inputs=[image_encoder_input, text_encoder_input], outputs=image_text_concat
 )
 
 # decoder for image
-
 # decoder_input=Input(shape=(512,))
-
 image_y = Dense(units=np.prod(image_shape_before_flatten), name="image_dense")(
     image_text_concat
 )
 image_y = Reshape(target_shape=image_shape_before_flatten, name="image_reshape")(
     image_y
 )
-
 image_decoder_convt_layer1 = Conv2DTranspose(
     16, (3, 3), padding="same", name="idecode_conv1"
 )(image_y)
@@ -207,8 +187,6 @@ image_decoder_norm_layer1 = BatchNormalization(name="idecode_norm1")(
     image_decoder_convt_layer1
 )
 image_decoder_actv_layer1 = ReLU(name="idecode_relu1")(image_decoder_norm_layer1)
-
-
 image_decoder_convt_layer2 = Conv2DTranspose(
     32, (3, 3), padding="same", name="idecode_conv2"
 )(image_decoder_actv_layer1)
@@ -216,14 +194,12 @@ image_decoder_norm_layer2 = BatchNormalization(name="idecode_norm2")(
     image_decoder_convt_layer2
 )
 image_decoder_actv_layer2 = ReLU(name="idecode_relu2")(image_decoder_norm_layer2)
-
 image_decoder_output = Conv2DTranspose(
     3, (3, 3), padding="same", name="image_output_layer"
 )(image_decoder_actv_layer2)
 
 
 # decoder for text
-
 text_decoder_dense_layer1 = Dense(16, activation="tanh", name="tdecode_dense1")(
     image_text_concat
 )
@@ -233,14 +209,10 @@ text_reshape = Reshape(target_shape=text_shape_before_concat, name="text_reshape
 text_decoder_dense_layer2 = Dense(32, activation="tanh", name="tdecode_dense2")(
     text_reshape
 )
-
 text_decoder_output = Dense(13, activation="sigmoid", name="text_output_layer")(
     text_decoder_dense_layer2
 )
-
-
 # decoding_model=Model(inputs=[decoder_input],outputs=[image_decoder_output,text_decoder_output])
-
 
 ae_sep_output = Model(
     [image_encoder_input, text_encoder_input],
@@ -255,9 +227,7 @@ vectorizer = TfidfVectorizer(stop_words=None)
 train_data_copy = train_data
 train_data_copy["features"] = train_data_copy.features.apply(lambda x: str(x))
 vectors = vectorizer.fit_transform(train_data_copy["features"])
-
 idf = vectorizer.idf_
-
 # build the weight dictionary
 new_dict = {}
 for c in mlb.classes_:
@@ -266,18 +236,12 @@ for c in mlb.classes_:
     else:
         new_dict[c] = np.max(idf)
 print("\n Printing the TF-IDF for the labels\n\n", new_dict)
-
-
 weight_freq = {k: v / sum(new_dict.values()) for k, v in new_dict.items()}
-
 print("\nPrinting the weight normalised\n\n")
 print(weight_freq)
-
 weight_vector = [v * 1000 for v in new_dict.values()]
-
 tensor_from_list = tf.convert_to_tensor(weight_vector)
 tensor_from_list = K.cast(tensor_from_list, "float32")
-
 print("Weight Vector")
 print(weight_vector)
 
@@ -287,7 +251,6 @@ def loss_func1(y_true, y_pred):
     r_loss=K.mean(K.square(y_true - y_pred), axis=[1,2,3])
     loss  =  r_loss
     return loss
-
     
 def loss_func4(y_true,y_pred):
     # multilabel text weighted bce
@@ -299,12 +262,9 @@ def loss_func4(y_true,y_pred):
     loss=bce_sum/13.0
     return loss
 
-    
 losses ={'image_output_layer':loss_func1,
           'text_output_layer':loss_func4,
 }
-
-
 #tweak loss weights
 lossWeights={'image_output_layer':0.1,
           'text_output_layer':0.9  
@@ -365,13 +325,11 @@ t_dense2 = ae_sep_output.get_layer("tdecode_dense2")(t_reshape)
 d_text_output = ae_sep_output.get_layer("text_output_layer")(t_dense2)
 
 decoder_model = Model(inputs=[decoder_input], outputs=[d_image_output, d_text_output])
-
-decoder_model.summary()
+# decoder_model.summary()
 
 ## save model weights, multilabel binarizer
 
 import pickle
-
 # saving
 with open("model_tokenizer.pickle", "wb") as handle:
     pickle.dump(mlb, handle, protocol=pickle.HIGHEST_PROTOCOL)
