@@ -31,14 +31,14 @@ from keras import backend as K
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from collections import Counter
 
-from evaluation_metrics.multilabel.example_based import (
+from utils.evaluation_metrics.multilabel.example_based import (
     hamming_loss,
     example_based_accuracy,
     example_based_precision,
     example_based_recall,
 )
 
-from evaluation_metrics.multilabel.label_based import (
+from utils.evaluation_metrics.multilabel.label_based import (
     accuracy_macro,
     precision_macro,
     recall_macro,
@@ -47,8 +47,8 @@ from evaluation_metrics.multilabel.label_based import (
     recall_micro,
 )
 
-from evaluation_metrics.multilabel.alpha_score import alpha_score
-from data_loading.load_data import get_tile_data
+from utils.evaluation_metrics.multilabel.alpha_score import alpha_score
+from utils.data_loading.load_data import get_tile_data
 
 ##loading data
 data_directory = "../data/context_data/"
@@ -65,36 +65,36 @@ print("The size of the test data is ", test_data.shape)
 # load the multilabel binarizer
 import pickle
 
-with open("model_tokenizer.pickle", "rb") as handle:
+with open("model_tokenizer_test.pickle", "rb") as handle:
     mlb = pickle.load(handle)
 print("Feature Dictionary Loaded")
 total_features = len(mlb.classes_)
 print("The feature dictionary has size", total_features)
-display("Features", mlb.classes_)
+print("Features", mlb.classes_)
 
 # load entire autoencoder architecture
-json_file = open("autoencoder_model.json", "r")
+json_file = open("autoencoder_model_test.json", "r")
 loaded_model_json = json_file.read()
 json_file.close()
 ae_sep_output = model_from_json(loaded_model_json)
-ae_sep_output.load_weights("autoencoder_model.h5")
+ae_sep_output.load_weights("autoencoder_model_test.h5")
 print("Loaded Entire Autoencoder Model from the Disk")
 
 # load the encoding architecture and weights
-json_file = open("encoder_model.json", "r")
+json_file = open("encoder_model_test.json", "r")
 loaded_model_json = json_file.read()
 json_file.close()
 encoding_model = model_from_json(loaded_model_json)
-encoding_model.load_weights("encoder_model.h5")
+encoding_model.load_weights("encoder_model_test.h5")
 print("Loaded Encoder Model from the Disk")
 
 # load the decoding architecture and weights
-json_file = open("decoder_model.json", "r")
+json_file = open("decoder_model_test.json", "r")
 loaded_model_json = json_file.read()
 json_file.close()
 decoding_model = model_from_json(loaded_model_json)
 # load weights into new model
-decoding_model.load_weights("decoder_model.h5")
+decoding_model.load_weights("decoder_model_test.h5")
 print("Loaded Decoder Model from the Disk")
 
 # Build Input Output Training Batches

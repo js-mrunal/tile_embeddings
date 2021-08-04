@@ -3,6 +3,7 @@
         "B" : ["solid"],
         "b" : ["solid","breakable"],
         "@" : ["passable","empty"],
+        "." : ["passable","empty"],
         "-" : ["passable","climbable"],
         "#" : ["passable","climbable"],
         "G" : ["passable", "collectable"],
