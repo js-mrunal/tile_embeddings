@@ -18,6 +18,7 @@ Please cite : -->
 2. [Autoencoder Training](#2-autoencoder-for-tile-embeddings)
 3. [Level Representation using tile embeddings](#3-unified-level-representation-with-tile-embeddings)
 4. [Bubble Bobble level generation using LSTM](#4-generating-level-representation-for-bubble-bobble)
+5. [How can you contribute to this project](#how-can-you-contribute-to-this-project?)
 
 
 ## How do I use this repository?
@@ -58,7 +59,9 @@ On successful execution of this code, navigate to the folder *data > context_dat
 > 2. Affordances: 
 We define a single, unified set of 13 tags across the games. The tile character to behaviour mapping is provided as [JSON](https://github.com/js-mrunal/tile_embeddings/tree/main/data/json_files_trimmed_features) files. 
     
+    
 Inputs obtained are as follows: 
+
 <img src="images/inputs.png">
 
 ## 2 Autoencoder for Tile Embeddings
