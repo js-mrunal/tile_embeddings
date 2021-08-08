@@ -14,44 +14,53 @@ Please cite : -->
 
 ### Quick Rundown
 1. [Data Extraction and Preparation](#data-extraction-and-preparation)
-2. Autoencoder Training
-3. Level Representation using tile embeddings
-4. Bubble Bobble level generation using LSTM 
+2. [Autoencoder Training](#autoencoder-for-tile-embeddings)
+3. [Level Representation using tile embeddings]()
+4. [Bubble Bobble level generation using LSTM]()
 
-## Install Dependencies
+Note: Feel free to jump and read the pre-requisites to check which steps you can skip :) 
+
+## 0. Install Dependencies
 
 ```
 pip install -r requirements.txt
 ```
 
-## Data Extraction and Preparation
-1. Data Extraction and Preparation- The training data for our implementation includes five games: *Super Mario Bros, Kid Icarus, Legend of Zelda, Lode Runner, Megaman*. To train the autoencoder for obtain an embedded representation of tile, we draw on local pixel context and the affordances of the candidate tile. 
+## 1. Data Extraction and Preparation
+Prerequisites:
+* Step 0
 
-    a. Local Pixel Context: To extract the 16 * 16 tiles along with its local context, we slide a 48 * 48 window over the level images. The parent dataset for level images is [VGLC](https://github.com/TheVGLC/TheVGLC). However, level images for some games have extra pixels along the vertical/horizontal axis which result in off-centered tile sprite extraction(demonstrated in fig). We perform prelimnary image manipulations on this dataset to fit the dimensions of such level images. Lode Runner levels has 8 * 8 tile size which we upscaled to 16 * 16 using the [PIL](https://pillow.readthedocs.io/en/stable/) library. We provide the preprocessed dataset directory [vglc](https://github.com/js-mrunal/tile_embeddings/tree/main/data/vglc).
+The training data for our implementation includes five games: *Super Mario Bros, Kid Icarus, Legend of Zelda, Lode Runner, Megaman*. To train the autoencoder for obtain an embedded representation of tile, we draw on local pixel context and the affordances of the candidate tile. 
+
+> 1. Local Pixel Context: To extract the 16 * 16 tiles along with its local context, we slide a 48 * 48 window over the level images. The parent dataset for level images is [VGLC](https://github.com/TheVGLC/TheVGLC). However, level images for some games have extra pixels along the vertical/horizontal axis which result in off-centered tile sprite extraction(demonstrated in fig). We perform prelimnary image manipulations on this dataset to fit the dimensions of such level images. Lode Runner levels has 8 * 8 tile size which we upscaled to 16 * 16 using the [PIL](https://pillow.readthedocs.io/en/stable/) library. We provide the preprocessed dataset directory [vglc](https://github.com/js-mrunal/tile_embeddings/tree/main/data/vglc).
 
 <img src="images/data_extraction.png">
-
-    b. Affordances: 
-We define a single, unified set of 13 tags across the games. The tile character to behaviour mapping is provided as [JSON](https://github.com/js-mrunal/tile_embeddings/tree/main/data/json_files_trimmed_features) files. 
-    
-Thus the Inputs obtained are as follows: 
-<img src="images/inputs.png">
 
 To extract the context for all five games run the following. 
 1. Move to directory: context_extraction
 ```
-cd notebooks/context_extraction
+cd notebooks/
 ```
 
 2. Run the following command in shell
 ```
-python extract_context.py
+python extract_context_data.py
 ```
 
-On navigating to the folder *data > context_data >* each game folder should be populated by its visual context sorted by the centre tile.
-The json files generated in each game directory is a dictionary with key as the centre tile and value enlisting all possible neighbourhoods it. 
+On successful execution of this code, navigate to the folder *data > context_data >*. Each game directory populated with visual local context seperated with sub-directories of tile characters. Each game directory also has an JSON file created. It is a dictionary with key as the centre tile, enlisting all possible neighbourhoods it. 
 
-## Training autoencoder
+> 2. Affordances: 
+We define a single, unified set of 13 tags across the games. The tile character to behaviour mapping is provided as [JSON](https://github.com/js-mrunal/tile_embeddings/tree/main/data/json_files_trimmed_features) files. 
+    
+Inputs obtained are as follows: 
+<img src="images/inputs.png">
+
+## 2. Autoencoder for Tile Embeddings
+Prerequisites:
+* Step 0
+* You can skip Step 1, and directly load the provided architecture and pretrained weights of the autoencoder. Demonstrated in step (2c).
+
+Now that we have both our inputs ready, we have to integrate them into a single latent vector representation, which we call *tile embeddings*. To get the embedding, we employ the X-shaped autoencoder architecture. Please find the details of the architecture in our paper. 
 
 1. The jupyter notebook "notebooks > autoencoder_training.ipynb" provides a step by step guide for autoencoder training. 
 
@@ -65,8 +74,19 @@ cd notebooks/
 ```
 python autoencoder_training.py
 ```
+3. Load the directly provided architecture and pretrained weights to perform evaluation. Sample Notebook:  
+```
+evaluating_autoencoder_on_text.ipynb
+```
 
-3. Load the directly provided architecture and weights. Sample Notebook: 
+## 3. Level Representation with Tile Embeddings. 
+Prerequisites:
 
-## Generating Level Representation using trained autoencoder-Bubble Bobble
-The notebook *bubble_bobble_generation.ipynb* demonstrates step by step level generation using tile embedding.
+
+
+
+
+## 4. Generating Level Representation using trained autoencoder-Bubble Bobble
+Prerequisites:
+
+The notebook *bubble_bobble_generation.ipynb* provides step-by-step instructions in detail for generating levels of the game Bubble Bobble using LSTM and tile embeddings.
