@@ -3,6 +3,7 @@
 
 In  recent  years,  Procedural  Level  Generation  via  Machine Learning (PLGML) techniques have been applied to generate game levels with machine learning. These approaches rely on human-annotated representations of game levels. Creating annotated datasets for games requires domain knowledge and is time-consuming. Hence, though a large number of video games exist, annotated datasets are curated only for a small handful. Thus current PLGML techniques have been explored in limited domains, with Super Mario Bros. as the most common example. To address this problem, we present tile embeddings,  a  unified,  affordance-rich  representation  for  tile-based  2D  games.  To  learn  this  embedding,  we  employ  autoencoders trained on the visual and semantic information oft iles from a set of existing, human-annotated games. We evaluate this representation on its ability to predict affordancesfor unseen tiles, and to serve as a PLGML representation for annotated and unannotated games.
 
+## Our contributions through this repository
 To promote future research and as a contribution to PCGML community, through this repository we provide:
 1. An end to end implementation 
 2. Level Generation
@@ -18,7 +19,11 @@ Please cite : -->
 3. [Level Representation using tile embeddings]()
 4. [Bubble Bobble level generation using LSTM]()
 
-Note: Feel free to jump and read the pre-requisites to check which steps you can skip :) 
+## How do I use this repository?
+
+Too many scripts to run? The flow chart below guide answers the questions on which script to run and in what order :) To ensure you ran necessary scripts, feel free to check the pre-requisites checklist provided for each step. 
+
+<img src="images/roadmap.png">
 
 ## 0. Install Dependencies
 
@@ -27,7 +32,7 @@ pip install -r requirements.txt
 ```
 
 ## 1. Data Extraction and Preparation
-Prerequisites:
+**Prerequisites:**
 * Step 0
 
 The training data for our implementation includes five games: *Super Mario Bros, Kid Icarus, Legend of Zelda, Lode Runner, Megaman*. To train the autoencoder for obtain an embedded representation of tile, we draw on local pixel context and the affordances of the candidate tile. 
@@ -56,7 +61,7 @@ Inputs obtained are as follows:
 <img src="images/inputs.png">
 
 ## 2. Autoencoder for Tile Embeddings
-Prerequisites:
+**Prerequisites:**
 * Step 0
 * You can skip Step 1, and directly load the provided architecture and pretrained weights of the autoencoder. Demonstrated in step (2c).
 
@@ -80,13 +85,11 @@ evaluating_autoencoder_on_text.ipynb
 ```
 
 ## 3. Level Representation with Tile Embeddings. 
-Prerequisites:
-
-
+**Prerequisites:**
 
 
 
 ## 4. Generating Level Representation using trained autoencoder-Bubble Bobble
-Prerequisites:
+**Prerequisites:**
 
 The notebook *bubble_bobble_generation.ipynb* provides step-by-step instructions in detail for generating levels of the game Bubble Bobble using LSTM and tile embeddings.
