@@ -24,7 +24,7 @@ Please cite : -->
 
 Too many scripts to run? The flow chart below answers the questions related to which scripts to run and in what order :) 
 
-<img src="images/roadmap.png">
+<img src="images/roadmap.gif">
 
 ## 0 Install Dependencies
 
