@@ -1,10 +1,22 @@
 # Tile Embedding: A General Representation for Level Generation.
 ### Authors: Mrunal Jadhav and Matthew Guzdial 
 
-In  recent  years,  Procedural  Level  Generation  via  Machine Learning (PLGML) techniques have been applied to generate game levels with machine learning. These approaches rely on human-annotated representations of game levels. Creating annotated datasets for games requires domain knowledge and is time-consuming. Hence, though a large number of video games exist, annotated datasets are curated only for a small handful. Thus current PLGML techniques have been exploredin limited domains, with Super Mario Bros. as the most common example. To address this problem, we present tile embeddings,  a  unified,  affordance-rich  representation  for  tile-based  2D  games.  To  learn  this  embedding,  we  employ  autoencoders trained on the visual and semantic information oft iles from a set of existing, human-annotated games. We evaluate this representation on its ability to predict affordancesfor unseen tiles, and to serve as a PLGML representation for annotated and unannotated games.
+In  recent  years,  Procedural  Level  Generation  via  Machine Learning (PLGML) techniques have been applied to generate game levels with machine learning. These approaches rely on human-annotated representations of game levels. Creating annotated datasets for games requires domain knowledge and is time-consuming. Hence, though a large number of video games exist, annotated datasets are curated only for a small handful. Thus current PLGML techniques have been explored in limited domains, with Super Mario Bros. as the most common example. To address this problem, we present tile embeddings,  a  unified,  affordance-rich  representation  for  tile-based  2D  games.  To  learn  this  embedding,  we  employ  autoencoders trained on the visual and semantic information oft iles from a set of existing, human-annotated games. We evaluate this representation on its ability to predict affordancesfor unseen tiles, and to serve as a PLGML representation for annotated and unannotated games.
+
+To promote future research and as a contribution to PCGML community, through this repository we provide:
+1. An end to end implementation 
+2. Level Generation
+3. Context data for every unique tile type..
+4. Preprocessed Bubble Bobble levels 
 
 <!-- Paper: 
-If you use the data please cite : -->
+Please cite : -->
+
+### Quick Rundown
+1. Data Extraction and Preparation(#data-extraction-and-preparation)
+2. Autoencoder Training
+3. Level Representation using tile embeddings
+4. Bubble Bobble level generation using LSTM 
 
 ## Install Dependencies
 
@@ -12,20 +24,18 @@ If you use the data please cite : -->
 pip install -r requirements.txt
 ```
 
-## Extracting the Data
+## Data Extraction and Preparation
+1. Data Extraction and Preparation- The training data for our implementation includes five games: *Super Mario Bros, Kid Icarus, Legend of Zelda, Lode Runner, Megaman*. To train the autoencoder for obtain an embedded representation of tile, we draw on local pixel context and the affordances of the candidate tile. 
 
-For this implementation, we use the data from [VGLC Corpus](https://github.com/TheVGLC/TheVGLC). Our training data includes five games: *Super Mario Bros, Kid Icarus, Legend of Zelda, Lode Runner, Megaman*. We train a X-shaped autoencoder which takes two inputs:
+a. Local Pixel Context: To extract the 16 * 16 tiles along with its local context, we slide a 48 * 48 window over the level images. The parent dataset for level images is [VGLC](https://github.com/TheVGLC/TheVGLC). However, level images for some games have extra pixels along the vertical/horizontal axis which result in off-centered tile sprite extraction(demonstrated in fig). We perform prelimnary image manipulations on this dataset to fit the dimensions of such level images. Lode Runner levels has 8 * 8 tile size which we upscaled to 16 * 16 using the [PIL](https://pillow.readthedocs.io/en/stable/) library. We provide the preprocessed dataset directory [vglc](https://github.com/js-mrunal/tile_embeddings/tree/main/data/vglc).
+<img src="images/data_extraction.png">
+b. Affordances: 
+We define a single, unified set of 13 tags across the games. The tile character to behaviour mapping is provided as [JSON](https://github.com/js-mrunal/tile_embeddings/tree/main/data/json_files_trimmed_features) files. 
+    
+Thus the Inputs obtained are as follows: 
+<img src="images/inputs.png">
 
-1. Tile Sprite with its neighbourhood context.
-2. Affordances associated with the tile sprite. 
-
-The data extraction takes places as follows: 
-> We slide a 48 * 48 window over the level images to extract the tile sprites with its local context. As preprocessing, we have performed prelimnary image manipulations to fit the dimensions of the levels images. For instance some SMB levels had extra pixels along the vertical/horizontal axis which results in off-centered tile extraction.Lode Runner levels has 8 * 8 tile size which we upscaled to 16 * 16 using the PIL library. The preprocessed dataset is stored in [vglc]("data/vglc/") directory
-
-<img src="images/sliding_window.png">
-
-To extract the context for one game run the following 
-
+To extract the context for all five games run the following. 
 1. Move to directory: context_extraction
 ```
 cd notebooks/context_extraction
