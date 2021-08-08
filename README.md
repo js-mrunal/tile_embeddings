@@ -5,7 +5,7 @@ In  recent  years,  Procedural  Level  Generation  via  Machine Learning (PLGML)
 
 ## Our contributions through this repository
 To promote future research and as a contribution to PCGML community, through this repository we provide:
-1. An end to end implementation for extracting the data and training an autoencoder to get tile embeddings.
+1. An end to end implementation for extracting the data and training an autoencoder to get a single, unified representation which we refer as **tile embeddings**.
 2. A tutorial notebook for generating levels of the game Bubble Bobble using LSTMs and tile embeddings.
 3. JSON files with context data for every unique tile type.
 4. Preprocessed level images for the game Bubble Bobble. 
