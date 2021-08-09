@@ -25,12 +25,12 @@ Please cite : -->
 
 Too many scripts to run? The flow chart below answers the questions related to which scripts to run and in what order :) 
 
-<img src="images/roadmap.gif">
+<img src="images/roadmap.png">
 
-## 0 Install Dependencies
+## 0 Installing Virtual Environment
 
 ```
-pip install -r requirements.txt
+pipenv install --dev
 ```
 
 ## 1 Data Extraction and Preparation
