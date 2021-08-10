@@ -18,7 +18,7 @@ Please cite : -->
 2. [Autoencoder Training](#2-autoencoder-for-tile-embeddings)
 3. [Level Representation using tile embeddings](#3-unified-level-representation-with-tile-embeddings)
 4. [Bubble Bobble level generation using LSTM](#4-generating-level-representation-for-bubble-bobble)
-5. [How can you contribute to this project](#how-can-you-contribute-to-this-project?)
+5. [How can you contribute to this project](#how-can-you-contribute-to-this-project-?)
 
 
 ## How do I use this repository?
@@ -115,7 +115,7 @@ After the execution of this python code the embedding representation of the *Bub
 The notebook *bubble_bobble_generation.ipynb* provides step-by-step instructions in detail for generating levels of the game Bubble Bobble using LSTM and tile embeddings.
  
 
-## How can you contribute to this project?
+## How can you contribute to this project ?
 * Add more data! Training the autoencoder on more games and enriching the corpus 
 * Perform cool experiments with tile embedding, and cite us :)
 * Find bugs and help us make this repository better!

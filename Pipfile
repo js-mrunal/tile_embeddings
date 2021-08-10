@@ -4,23 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-jupyter = "*"
-notebook = "*"
-ipykernel = "*"
-requests = "*"
-numpy = "*"
-pandas = "*"
-keras = "*"
-tensorflow = "*"
-sklearn = "*"
-matplotlib = "*"
-nb-black = "*"
-annoy = "*"
-seaborn = "*"
-pydot = "*"
-graphviz = "*"
+
+[dev-packages]
 
 [requires]
 python_version = "3.6"
-
-[dev-packages]
