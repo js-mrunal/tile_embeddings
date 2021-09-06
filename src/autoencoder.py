@@ -50,10 +50,13 @@ from utils.evaluation_metrics.multilabel.label_based import (
 from utils.evaluation_metrics.multilabel.alpha_score import alpha_score
 from utils.data_loading.load_data import get_tile_data
 
+<<<<<<< HEAD
 from sklearn.feature_extraction.text import TfidfVectorizer
 from ast import literal_eval
 import tensorflow as tf
 
+=======
+>>>>>>> 313595c9947f6e24834176741f5ba4ec9aabc23b
 ##loading train and testing data
 
 data_directory = "../data/context_data/"
@@ -223,6 +226,13 @@ ae_sep_output = Model(
     [image_decoder_output, text_decoder_output],
 )
 
+<<<<<<< HEAD
+=======
+from sklearn.feature_extraction.text import TfidfVectorizer
+from ast import literal_eval
+import tensorflow as tf
+
+>>>>>>> 313595c9947f6e24834176741f5ba4ec9aabc23b
 vectorizer = TfidfVectorizer(stop_words=None)
 train_data_copy = train_data
 train_data_copy["features"] = train_data_copy.features.apply(lambda x: str(x))

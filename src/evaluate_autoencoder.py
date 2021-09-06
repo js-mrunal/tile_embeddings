@@ -2,15 +2,42 @@ import os
 import glob
 import pandas as pd
 import numpy as np
+<<<<<<< HEAD
 import pickle
+=======
+>>>>>>> 313595c9947f6e24834176741f5ba4ec9aabc23b
 from sklearn.utils import shuffle
 import json
 from keras.preprocessing import sequence, image
 from keras.preprocessing.image import array_to_img, save_img, img_to_array
 from sklearn.preprocessing import MultiLabelBinarizer
 from keras.models import model_from_json
+<<<<<<< HEAD
 from keras.models import Model
 from keras import backend as K
+=======
+from keras.layers import (
+    Flatten,
+    Dense,
+    Input,
+    Activation,
+    BatchNormalization,
+    Conv2D,
+    MaxPool2D,
+    Dropout,
+    UpSampling2D,
+    Lambda,
+)
+
+from keras.layers import ReLU, Reshape, Conv2DTranspose, Concatenate, Multiply
+from keras.models import Model
+
+from keras.optimizers import Adam
+from keras.losses import binary_crossentropy, categorical_crossentropy
+from keras import backend as K
+
+from keras.callbacks import ModelCheckpoint, EarlyStopping
+>>>>>>> 313595c9947f6e24834176741f5ba4ec9aabc23b
 from collections import Counter
 
 from utils.evaluation_metrics.multilabel.example_based import (
@@ -32,10 +59,16 @@ from utils.evaluation_metrics.multilabel.label_based import (
 from utils.evaluation_metrics.multilabel.alpha_score import alpha_score
 from utils.data_loading.load_data import get_tile_data
 
+<<<<<<< HEAD
 data_directory = "../data/context_data/"
 json_directory = "../data/json_files_trimmed_features/"
 
 # data loading
+=======
+##loading data
+data_directory = "../data/context_data/"
+json_directory = "../data/json_files_trimmed_features/"
+>>>>>>> 313595c9947f6e24834176741f5ba4ec9aabc23b
 data = get_tile_data(data_directory, json_directory)
 print("\nThe size of total data is", data.shape)
 data = shuffle(data)
@@ -46,7 +79,13 @@ print("\nThe size of the train data is ", train_data.shape)
 print("The size of the test data is ", test_data.shape)
 
 # load the multilabel binarizer
+<<<<<<< HEAD
 with open("../model/model_tokenizer_test.pickle", "rb") as handle:
+=======
+import pickle
+
+with open("model_tokenizer_test.pickle", "rb") as handle:
+>>>>>>> 313595c9947f6e24834176741f5ba4ec9aabc23b
     mlb = pickle.load(handle)
 print("Feature Dictionary Loaded")
 total_features = len(mlb.classes_)
@@ -54,6 +93,7 @@ print("The feature dictionary has size", total_features)
 print("Features", mlb.classes_)
 
 # load entire autoencoder architecture
+<<<<<<< HEAD
 json_file = open("../model/autoencoder_model_test.json", "r")
 loaded_model_json = json_file.read()
 json_file.close()
@@ -75,10 +115,38 @@ loaded_model_json = json_file.read()
 json_file.close()
 decoding_model = model_from_json(loaded_model_json)
 decoding_model.load_weights("../model/decoder_model_test.h5")
+=======
+json_file = open("autoencoder_model_test.json", "r")
+loaded_model_json = json_file.read()
+json_file.close()
+ae_sep_output = model_from_json(loaded_model_json)
+ae_sep_output.load_weights("autoencoder_model_test.h5")
+print("Loaded Entire Autoencoder Model from the Disk")
+
+# load the encoding architecture and weights
+json_file = open("encoder_model_test.json", "r")
+loaded_model_json = json_file.read()
+json_file.close()
+encoding_model = model_from_json(loaded_model_json)
+encoding_model.load_weights("encoder_model_test.h5")
+print("Loaded Encoder Model from the Disk")
+
+# load the decoding architecture and weights
+json_file = open("decoder_model_test.json", "r")
+loaded_model_json = json_file.read()
+json_file.close()
+decoding_model = model_from_json(loaded_model_json)
+# load weights into new model
+decoding_model.load_weights("decoder_model_test.h5")
+>>>>>>> 313595c9947f6e24834176741f5ba4ec9aabc23b
 print("Loaded Decoder Model from the Disk")
 
 # Build Input Output Training Batches
 print("Building Training Batches")
+<<<<<<< HEAD
+=======
+
+>>>>>>> 313595c9947f6e24834176741f5ba4ec9aabc23b
 """Note : Add Generators"""
 train_image_batch = []
 for train_path in train_data["image_path"]:
@@ -163,6 +231,10 @@ for idx in range(len(true_image)):
 print("Mean MSE", np.mean(mse_dist))
 print("Median MSE", np.median(mse_dist))
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 313595c9947f6e24834176741f5ba4ec9aabc23b
 def valid_divide(num, den):
     count = 0
     result = {}
