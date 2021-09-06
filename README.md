@@ -28,9 +28,17 @@ Too many scripts to run? The flow chart below answers the questions related to w
 <img src="images/roadmap.png">
 
 ## 0 Installing Virtual Environment
-
+1. Install Pipenv
 ```
-pipenv install --dev
+pip3 install pipenv
+```
+2. Setup the virtual environment 
+```
+make init
+```
+3. Try and run jupyter notebook on your local server
+```
+make jupyter-notebook
 ```
 
 ## 1 Data Extraction and Preparation
