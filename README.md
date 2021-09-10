@@ -18,11 +18,7 @@ Please cite : -->
 2. [Autoencoder Training](#2-autoencoder-for-tile-embeddings)
 3. [Level Representation using tile embeddings](#3-unified-level-representation-with-tile-embeddings)
 4. [Bubble Bobble level generation using LSTM](#4-generating-level-representation-for-bubble-bobble)
-<<<<<<< HEAD
-5. [How can you contribute to this project](#how-can-you-contribute-to-this-project-?)
-=======
 5. [How can you contribute to this project](#how-can-you-contribute-to-this-project?)
->>>>>>> 313595c9947f6e24834176741f5ba4ec9aabc23b
 
 
 ## How do I use this repository?
@@ -31,8 +27,14 @@ Too many scripts to run? The flow chart below answers the questions related to w
 
 <img src="images/roadmap.png">
 
-## 0 Installing Virtual Environment
-<<<<<<< HEAD
+## 0 Clone the Github Repository 
+
+```
+git clone https://github.com/js-mrunal/tile_embeddings.git
+```
+
+## 1 Installing Virtual Environment
+
 1. Install Pipenv
 ```
 pip3 install pipenv
@@ -46,9 +48,6 @@ make init
 make jupyter-notebook
 =======
 
-```
-pipenv install --dev
->>>>>>> 313595c9947f6e24834176741f5ba4ec9aabc23b
 ```
 
 ## 1 Data Extraction and Preparation
@@ -69,7 +68,7 @@ cd notebooks/
 
 2. Run the following command in shell
 ```
-python extract_context_data.py
+pipenv run python extract_context_data.py
 ```
 
 On successful execution of this code, navigate to the folder *data > context_data >*. Each game directory populated with visual local context seperated with sub-directories of tile characters. Each game directory also has an JSON file created. It is a dictionary with key as the centre tile, enlisting all possible neighbourhoods it. 
@@ -99,7 +98,7 @@ cd notebooks/
 ```
 > Run the following command in shell
 ```
-python autoencoder_training.py
+pipenv run python autoencoder_training.py
 ```
 2c. Load the directly provided architecture and pretrained weights to perform evaluation. Sample Notebook:  
 ```
@@ -115,13 +114,13 @@ In this step we convert the levels to the embedding representation using tile em
 
 3a. If the game data has affordance mapping present, leverage it to get the tile embeddings. The following notebook converts the  levels of all the games in our training dataset into a unified level representation by considering visuals as well as affordances. 
 ```
-python generate_unified_rep.py
+pipenv run python generate_unified_rep.py
 ```
 After the execution of this notebook the embedding representation of the levels for the games *Super Mario Bros, Kid Icarus, Megaman, Legend of Zelda, Lode Runner* will be stored in the directory *data>unified_rep*. 
 
 3b. In case of missing affordances, we provide evidence that the autoencoder can still approximate the embedding vectors (refer paper). To address such datasets, refer the following script
 ```
-python rep_no_affordances.py
+pipenv run python rep_no_affordances.py
 ```
 After the execution of this python code the embedding representation of the *Bubble Bobble* levels will be stored in *data>unified_rep>* 
 
@@ -133,11 +132,8 @@ After the execution of this python code the embedding representation of the *Bub
 The notebook *bubble_bobble_generation.ipynb* provides step-by-step instructions in detail for generating levels of the game Bubble Bobble using LSTM and tile embeddings.
  
 
-<<<<<<< HEAD
-## How can you contribute to this project ?
-=======
 ## How can you contribute to this project?
->>>>>>> 313595c9947f6e24834176741f5ba4ec9aabc23b
+
 * Add more data! Training the autoencoder on more games and enriching the corpus 
 * Perform cool experiments with tile embedding, and cite us :)
 * Find bugs and help us make this repository better!
