@@ -21,31 +21,31 @@ with open("../model/model_tokenizer.pickle", "rb") as handle:
 print("Feature Dictionary Loaded")
 total_features = len(mlb.classes_)
 print("The feature dictionary has size", total_features)
-display("Features", mlb.classes_)
+print("Features", mlb.classes_)
 
 # load entire autoencoder architecture
-json_file = open("../model/autoencoder_model.json", "r")
+json_file = open("../model/autoencoder_model_test.json", "r")
 loaded_model_json = json_file.read()
 json_file.close()
 ae_sep_output = model_from_json(loaded_model_json)
-ae_sep_output.load_weights("../model/autoencoder_model.h5")
+ae_sep_output.load_weights("../model/autoencoder_model_test.h5")
 print("Loaded Entire Autoencoder Model from the Disk")
 
 # load the encoding architecture and weights
-json_file = open("../model/encoder_model.json", "r")
+json_file = open("../model/encoder_model_test.json", "r")
 loaded_model_json = json_file.read()
 json_file.close()
 encoding_model = model_from_json(loaded_model_json)
-encoding_model.load_weights("../model/encoder_model.h5")
+encoding_model.load_weights("../model/encoder_model_test.h5")
 print("Loaded Encoder Model from the Disk")
 
 # load the decoding architecture and weights
-json_file = open("../model/decoder_model.json", "r")
+json_file = open("../model/decoder_model_test.json", "r")
 loaded_model_json = json_file.read()
 json_file.close()
 decoding_model = model_from_json(loaded_model_json)
 # load weights into new model
-decoding_model.load_weights("../model/decoder_model.h5")
+decoding_model.load_weights("../model/decoder_model_test.h5")
 print("Loaded Decoder Model from the Disk")
 
 def get_image(path):
@@ -128,15 +128,18 @@ def generate_unified_rep(current_game,loaded_game_data,game_image_dir, save_dir)
     with open(save_dir + "mappings/idx2tile.pickle", "wb") as handle:
         pickle.dump(idx2tile_map, handle, protocol=pickle.HIGHEST_PROTOCOL)
     print("Index to Tile map saved successfully!")
-    
     print("Extracted unified representation for game ",current_game)
 
-current_game = "bubble_bobble"
-game_image_dir = "../data/bubble_bobble/"
-save_dir = "../data/unified_rep/bubble_bobble/"
-loaded_game_data, identifiers = build_game_dataframe(
-    current_game,
-    game_image_dir,
-    ".png")
+    
+if __name__ == "__main__": 
+    current_game = "bubble_bobble"
+    game_image_dir = "../data/bubble_bobble/"
+    save_dir = "../data/unified_rep/bubble_bobble/"
+    loaded_game_data, identifiers = build_game_dataframe(
+        current_game,
+        game_image_dir,
+        ".png")
 
-generate_unified_rep(current_game,loaded_game_data,game_image_dir, save_dir)
+    generate_unified_rep(current_game,loaded_game_data,game_image_dir, save_dir)
+    
+    print("Saved Bubble Bobble Unified Representation!")

@@ -5,11 +5,18 @@ from sklearn.utils import shuffle
 import os
 import glob
 
+def listdir_nohidden(path):
+    game_list=[]
+    for f in os.listdir(path):
+        if not f.startswith('.'):
+            game_list.append(f)
+    return np.array(game_list)
+
 
 def get_tile_data(game_data_directory, json_directory, shuffle_data=True):
 
-    games = os.listdir(game_data_directory)
-
+    games = listdir_nohidden(game_data_directory)
+    
     print("Games detected in the parent folder", games)
 
     tile_data = pd.DataFrame(

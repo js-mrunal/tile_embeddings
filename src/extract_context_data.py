@@ -56,7 +56,6 @@ def save_context(game, identifiers, image_dir, image_extension, annotation_dir, 
         json.dump(tile_dictionary, fp, indent=4, sort_keys=True)
     print("Context Data Extracted for game ", game)
 
-<<<<<<< HEAD
     
 if __name__ == "__main__":    
     # UNCOMMENT TO EXTRACT DATA
@@ -129,76 +128,4 @@ if __name__ == "__main__":
     save_dir="../data/context_data/lode_runner/"
     print("Number of levels with annotations detected: ",len(identifiers))
     save_context(game, identifiers, image_dir, image_extension, annotation_dir, save_dir)
-=======
-# UNCOMMENT TO EXTRACT DATA
-# SUPER-MARIO-BROS
-game="smb"
-image_extension=".png"
-image_dir="../data/vglc/Super Mario Bros/Original_Fixed/"
-image_paths=glob.glob(image_dir+"*"+image_extension)
-image_identifiers=[x.split("/")[-1].split(".")[0] for x in image_paths]
-annotation_dir="../data/vglc/Super Mario Bros/Processed_Fixed/"
-annotation_paths=glob.glob(annotation_dir+"*.txt")
-annotation_identifiers=[x.split("/")[-1].split(".")[0] for x in annotation_paths]
-identifiers=set(image_identifiers).intersection(set(annotation_identifiers))
-save_dir="../data/context_data/smb/"
-print("Number of levels with annotations detected: ",len(identifiers))
-save_context(game, identifiers, image_dir, image_extension, annotation_dir, save_dir)
-
-# LEGEND OF ZELDA
-game="legend_of_zelda"
-image_extension=".png"
-image_dir="../data/vglc/The Legend of Zelda/Flipped_Data/"
-image_paths=glob.glob(image_dir+"*"+image_extension)
-image_identifiers=[x.split("/")[-1].split(".")[0] for x in image_paths]
-annotation_dir="../data/vglc/The Legend of Zelda/Processed/"
-annotation_paths=glob.glob(annotation_dir+"*.txt")
-annotation_identifiers=[x.split("/")[-1].split(".")[0] for x in annotation_paths]
-identifiers=set(image_identifiers).intersection(set(annotation_identifiers))
-save_dir="../data/context_data/loz/"
-print("Number of levels with annotations detected: ",len(identifiers))
-save_context(game, identifiers, image_dir, image_extension, annotation_dir, save_dir)
-
-# KID ICARUS
-game="kid_icarus"
-image_extension=".bmp"
-image_dir="../data/vglc/Kid Icarus/Original_Fixed/"
-image_paths=glob.glob(image_dir+"*"+image_extension)
-image_identifiers=[x.split("/")[-1].split(".")[0] for x in image_paths]
-annotation_dir="../data/vglc/Kid Icarus/Processed/"
-annotation_paths=glob.glob(annotation_dir+"*.txt")
-annotation_identifiers=[x.split("/")[-1].split(".")[0] for x in annotation_paths]
-identifiers=set(image_identifiers).intersection(set(annotation_identifiers))
-save_dir="../data/context_data/kid_icarus/"
-print("Number of levels with annotations detected: ",len(identifiers))
-save_context(game, identifiers, image_dir, image_extension, annotation_dir, save_dir)
-
-# MEGAMAN
-game = "megaman"
-image_extension = ".bmp"
-image_dir = "../data/vglc/MegaMan/"
-image_paths = glob.glob("../data/vglc/MegaMan/*" + image_extension)
-image_identifiers = [x.split("/")[-1].split(".")[0] for x in image_paths]
-annotation_dir = "../data/vglc/MegaMan/"
-annotation_paths = glob.glob("../data/vglc/MegaMan/*.txt")
-annotation_identifiers = [x.split("/")[-1].split(".")[0] for x in annotation_paths]
-identifiers = set(image_identifiers).intersection(set(annotation_identifiers))
-save_dir = "../data/context_data/megaman/"
-print("Number of levels with annotations detected: ", len(identifiers))
-save_context(game, identifiers, image_dir, image_extension, annotation_dir, save_dir)
-
-# LODE RUNNER
-game="lode_runner"
-image_extension=".png"
-image_dir="../data/vglc/Lode Runner/Original_Fixed/"
-image_paths=glob.glob(image_dir+"*"+image_extension)
-annotation_dir="../data/vglc/Lode Runner/Processed/"
-identifiers=[]
-for image_path in image_paths:
-    level_id=image_path.split("/")[-1].split(".")[0]
-    identifiers.append(level_id)
-save_dir="../data/context_data/lode_runner/"
-print("Number of levels with annotations detected: ",len(identifiers))
-save_context(game, identifiers, image_dir, image_extension, annotation_dir, save_dir)
->>>>>>> 313595c9947f6e24834176741f5ba4ec9aabc23b
 

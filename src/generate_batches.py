@@ -5,6 +5,7 @@ import numpy as np
 from sklearn.utils import shuffle
 import json
 import pickle
+from ast import literal_eval
 from keras.preprocessing import sequence, image
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.model_selection import train_test_split
@@ -19,8 +20,11 @@ if __name__ == "__main__":
     data=pd.read_csv(game_data_path)
     train_data=pd.read_csv(train_data_path)
     test_data=pd.read_csv(test_data_path)
-
-
+    
+    data['features'] = data.features.apply(lambda x: literal_eval(str(x)))
+    train_data['features'] = train_data.features.apply(lambda x: literal_eval(str(x)))
+    test_data['features'] = test_data.features.apply(lambda x: literal_eval(str(x)))
+    
     # Building feature dictionary consisting of all the features seen across games
     print("Building feature Dictionary..")
     mlb = MultiLabelBinarizer()
@@ -66,6 +70,8 @@ if __name__ == "__main__":
     print("Train Text batch shape", train_text_batch.shape)
     print("Output Image batch shape", output_image_batch.shape)
     print("Output Text batch shape", output_text_batch.shape)
+    
+    print("Train Batches Stored")
 
     # Build Input Output Test Batches
     print("Building Testing Batches")
@@ -83,7 +89,12 @@ if __name__ == "__main__":
     test_text_batch = np.array(test_text_batch).reshape(test_data.shape[0], num_features)
     print("\n\nTesting Data Ready")
     print("Train Image batch shape", test_image_batch.shape)
-    print("Train Text batch shape", test_text_batch.shape)   
+    print("Train Text batch shape", test_text_batch.shape) 
+    
+    #save the multilabel binarizer
+    with open("../model/model_tokenizer.pickle", "wb") as handle:
+        pickle.dump(mlb, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    print("\nMultilabel binarizer saved")
 
     # save the input-output training batches
     with open("../data/train_image_batch.pickle", "wb") as handle:
@@ -94,9 +105,13 @@ if __name__ == "__main__":
         pickle.dump(output_image_batch, handle, protocol=pickle.HIGHEST_PROTOCOL)
     with open("../data/output_text_batch.pickle", "wb") as handle:
         pickle.dump(output_text_batch, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        
+    print("\nTrain Batches Stored")
 
     # save the input-output test batches
     with open("../data/test_image_batch.pickle", "wb") as handle:
         pickle.dump(test_image_batch, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    with open("test_text_batch.pickle", "wb") as handle:
-        pickle.dump(test_image_batch, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    with open("../data/test_text_batch.pickle", "wb") as handle:
+        pickle.dump(test_text_batch, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        
+    print("\nTest Batches Stored")

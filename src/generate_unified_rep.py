@@ -150,28 +150,28 @@ print("The feature dictionary has size", total_features)
 print("Features", mlb.classes_)
 
 # load entire autoencoder architecture
-json_file = open("../model/autoencoder_model.json", "r")
+json_file = open("../model/autoencoder_model_test.json", "r")
 loaded_model_json = json_file.read()
 json_file.close()
 ae_sep_output = model_from_json(loaded_model_json)
-ae_sep_output.load_weights("../model/autoencoder_model.h5")
+ae_sep_output.load_weights("../model/autoencoder_model_test.h5")
 print("Loaded Entire Autoencoder Model from the Disk")
 
 # load the encoding architecture and weights
-json_file = open("../model/encoder_model.json", "r")
+json_file = open("../model/encoder_model_test.json", "r")
 loaded_model_json = json_file.read()
 json_file.close()
 encoding_model = model_from_json(loaded_model_json)
-encoding_model.load_weights("../model/encoder_model.h5")
+encoding_model.load_weights("../model/encoder_model_test.h5")
 print("Loaded Encoder Model from the Disk")
 
 # load the decoding architecture and weights
-json_file = open("../model/decoder_model.json", "r")
+json_file = open("../model/decoder_model_test.json", "r")
 loaded_model_json = json_file.read()
 json_file.close()
 decoding_model = model_from_json(loaded_model_json)
 # load weights into new model
-decoding_model.load_weights("../model/decoder_model.h5")
+decoding_model.load_weights("../model/decoder_model_test.h5")
 print("Loaded Decoder Model from the Disk")
 
 current_game = "loz"
