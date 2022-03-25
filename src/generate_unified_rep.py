@@ -236,7 +236,7 @@ representation_dir = "../data/vglc/Lode Runner/Processed"
 json_data_directory = "../data/json_files_trimmed_features/"
 img_extension = ".png"
 # save_dir = "../data/unified_rep/megaman/"
-save_dir = "../data/unified_rep/lode_runner"
+save_dir = "../data/unified_rep/lode_runner/"
 loaded_game_data, sprite_mappings = build_game_dataframe(
     current_game,
     game_image_dir,
